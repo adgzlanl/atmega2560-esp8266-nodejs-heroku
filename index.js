@@ -173,6 +173,51 @@ app.get('/userSelect',function(request, response) {
             });
 
 
+  app.post('/JsonuserSelect', jsonParser ,function(request, response) {
+
+              UserModel.findOne({'email': request.body.email}, function(err, user) {
+                  if (err){
+                    response.send(err);
+                  }
+                  else {
+                    if(user) {
+                     response.json({ID:user._id,name:user.name,email:user.email,pass:user.pass,deviceID:user.deviceID});
+                      console.log(user);
+
+                    } else {
+                      response.json({error:true});
+                      console.log("error:true");
+                    }
+
+                  }
+                });
+              });
+
+
+
+
+  app.post('/JsondeviceSelect', jsonParser ,function(request, response) {
+
+              DeviceModel.findOne({'Param1': request.body.Param1}, function(err, device) {
+                  if (err){
+                    response.send(err);
+                  }
+                  else {
+                    if(device) {
+                     response.json({ID:device._id,Param1:device.Param1,Param2:device.Param2,Param3:device.Param3,Param4:device.Param4});
+                      console.log(device);
+
+                    } else {
+                      response.json({error:true});
+                      console.log("error:true");
+                    }
+
+                  }
+                });
+              });
+
+
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
