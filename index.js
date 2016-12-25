@@ -1,5 +1,7 @@
 var express = require('express');
+var mongoose =require('mongoose');
 var app = express();
+mongoose.connect('mongodb://root:root@ds023315.mlab.com:23315/falkenmann');
 
 app.set('port', (process.env.PORT || 5000));
 
