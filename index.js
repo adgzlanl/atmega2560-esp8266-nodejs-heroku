@@ -25,7 +25,7 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
-app.get('/deviceSignup', function(request, response) {
+app.post('/deviceSignup', function(request, response) {
   var param1=request.query.Param1;
   var param2=request.query.Param2;
   var param3=request.query.Param3;
@@ -59,7 +59,7 @@ app.get('/deviceSignup', function(request, response) {
 
 });
 
-app.get('/deviceSelect',function(request, response) {
+app.post('/deviceSelect',function(request, response) {
 
   DeviceModel.findOne({ 'Param1': request.query.Param1,'Param2':request.query.Param2}, function(err, user) {
       if (err)
@@ -79,7 +79,7 @@ app.get('/deviceSelect',function(request, response) {
   });
 
 
-app.get('/userSignup', function(request, response) {
+app.post('/userSignup', function(request, response) {
   var Username=request.query.name;
   var Useremail=request.query.email;
   var Userpass=request.query.pass;
@@ -112,7 +112,7 @@ app.get('/userSignup', function(request, response) {
 });
 
 
-app.get('/userSelect',function(request, response) {
+app.post('/userSelect',function(request, response) {
 
   UserModel.findOne({ 'email': request.query.email,'name':request.query.name}, function(err, user) {
       if (err)
