@@ -25,6 +25,11 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
+app.get('/esp8266', function(request, response) {
+  var param1=request.query.Param1;
+  console.log(param1);
+});
+
 app.post('/deviceSignup', function(request, response) {
   var param1=request.query.Param1;
   var param2=request.query.Param2;
