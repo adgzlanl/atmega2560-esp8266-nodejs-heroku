@@ -50,6 +50,7 @@ app.get('/deviceSignup', function(request, response) {
       response.send(err);
     } else {
       console.log('Person created');
+      response.redirect('/');
       
     }
   });
