@@ -28,7 +28,7 @@ app.get('/', function(request, response) {
 app.get('/esp8266', function(request, response) {
   var test=request.query.Test;
   console.log(test);
-  response.redirect('/');
+  response.send(test);
 });
 
 app.post('/deviceSignup', function(request, response) {
