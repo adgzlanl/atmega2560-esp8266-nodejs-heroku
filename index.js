@@ -4,6 +4,10 @@
 // YOU CAN PUBLISH ,DISTRIBUTE AND CHANGE.
 
 
+//BUFORE USING THIS SERVICE, YOU SHOULD INSTALL NODE JS ON THE INTERNET AND INSTALL HEROKU TOOLKIT
+// HEROKU REDIRECTS YOU 
+
+
 //*********************************** Variables*****************************************************
 
 var express = require('express');
