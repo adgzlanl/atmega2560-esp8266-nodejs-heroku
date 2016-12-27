@@ -25,11 +25,7 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
-app.get('/esp8266', function(request, response) {
-  var test=request.query.Test;
-  console.log(test);
-  response.send(test);
-});
+
 
 app.post('/deviceSignup', function(request, response) {
   var param1=request.query.Param1;
@@ -65,39 +61,7 @@ app.post('/deviceSignup', function(request, response) {
 
 });
 
-app.get('/deviceSignup', function(request, response) {
-  var param1=request.query.Param1;
-  var param2=request.query.Param2;
-  var param3=request.query.Param3;
-  var param4=request.query.Param4;
 
-  console.log(param1);
-  console.log(param2);
-  console.log(param3);
-  console.log(param4);
-
-  var DeviceClass=new DeviceModel();
-  DeviceClass.Param1=param1;
-  DeviceClass.Param2=param2;
-  DeviceClass.Param3=param3;
-  DeviceClass.Param4=param4;
-
-
-  DeviceClass.save(function(err) {
-    if (err) {
-      //request.send(err);
-      console.log('mongo save hata')
-      response.send(err);
-    } else {
-      console.log('Person created');
-      response.redirect('/');
-      
-    }
-  });
-
-
-
-});
 
 app.post('/deviceSelect',function(request, response) {
 

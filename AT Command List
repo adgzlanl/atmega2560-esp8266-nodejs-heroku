@@ -15,4 +15,50 @@ AT+CIPSEND=90\r\n
 
 GET /esp8266?Test=4 HTTP/1.1\r\nHost: atmega2560-esp8266.herokuapp.com\r\nUser-Agent: test\r\n\r\n
 
+
+
+AT+CIPCLOSE
+
+
+
+AT+CIPSTART="TCP","atmega2560-esp8266.herokuapp.com",80\r\n
+
+
+AT+CIPSEND=124\r\n
+
+
+
+
+GET /deviceSignup?Param1=5&Param2=5&Param3=5&Param4=5 HTTP/1.1\r\nHost: atmega2560-esp8266.herokuapp.com\r\nUser-Agent: test\r\n\r\n
+
+
+
+AT+CIPCLOSE
+
+AT+CIPSTART="TCP","atmega2560-esp8266.herokuapp.com",80\r\n
+
+
+AT+CIPSEND=125\r\n
+
+
+
+
+POST /deviceSignup?Param1=5&Param2=5&Param3=5&Param4=5 HTTP/1.1\r\nHost: atmega2560-esp8266.herokuapp.com\r\nUser-Agent: test\r\n\r\n
+
+
+
+AT+CIPCLOSE
+
+AT+CIPSTART="TCP","atmega2560-esp8266.herokuapp.com",80\r\n
+
+
+AT+CIPSEND=107\r\n
+
+
+
+
+POST /deviceSelect?Param1=5&Param2=5 HTTP/1.1\r\nHost: atmega2560-esp8266.herokuapp.com\r\nUser-Agent: test\r\n\r\n
+
+
+
 AT+CIPCLOSE
