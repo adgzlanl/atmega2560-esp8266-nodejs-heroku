@@ -14,6 +14,7 @@ var express = require('express');
 var mongoose =require('mongoose');
 var UserModel=require('./models/user');
 var DeviceModel=require('./models/device');
+var UserandDeviceModel=require('./models/useranddevice');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var app = express();
@@ -45,27 +46,52 @@ app.get('/', function(request, response) {
 });
 
 
-//*****************************POST / DEVICESIGNUP REQUEST*********************************************
-app.post('/deviceSignup', function(request, response) {
-  var param1=request.query.Param1;
-  var param2=request.query.Param2;
-  var param3=request.query.Param3;
-  var param4=request.query.Param4;
 
-// THIS IS FOR DEBUG********************
-  console.log(param1);
-  console.log(param2);
-  console.log(param3);
-  console.log(param4);
+//*****************************POST / SIGNUP USER AND DEVICE REQUEST*********************************************
+app.post('/user_and_device_signup', function(request, response) {
+  var name=request.query.name;
+  var username=request.query.username;
+  var password=request.query.password;
+  var admin=request.query.admin;
+  var location=request.query.location;
+  var deviceid=request.query.deviceid;
+  var email=request.query.email;
+  var deviceparam1="NULL";
+  var deviceparam2="NULL";
+  var deviceparam3="NULL";
+  var deviceparam4="NULL";
+  var deviceparam5="NULL";
+  var deviceparam6="NULL";
+  var deviceparam7="NULL";
+  var deviceparam8="NULL";
+  var deviceparam9="NULL";
+  var deviceparam10="NULL";
+  var deviceparam11="NULL";
+  var deviceparam12="NULL";
 
-  var DeviceClass=new DeviceModel();
-  DeviceClass.Param1=param1;
-  DeviceClass.Param2=param2;
-  DeviceClass.Param3=param3;
-  DeviceClass.Param4=param4;
+
+  var UserandDeviceClass=new UserandDeviceModel();
+  UserandDeviceClass.name=name;
+  UserandDeviceClass.username=username;
+  UserandDeviceClass.password=password;
+  UserandDeviceClass.admin=admin;
+  UserandDeviceClass.location=location;
+  UserandDeviceClass.DeviceInfo.deviceID=deviceid;
+  UserandDeviceClass.DeviceInfo.Param1=deviceparam1;
+  UserandDeviceClass.DeviceInfo.Param2=deviceparam2;
+  UserandDeviceClass.DeviceInfo.Param3=deviceparam3;
+  UserandDeviceClass.DeviceInfo.Param4=deviceparam4;
+  UserandDeviceClass.DeviceInfo.Param5=deviceparam5;
+  UserandDeviceClass.DeviceInfo.Param6=deviceparam6;
+  UserandDeviceClass.DeviceInfo.Param7=deviceparam7;
+  UserandDeviceClass.DeviceInfo.Param8=deviceparam8;
+  UserandDeviceClass.DeviceInfo.Param9=deviceparam9;
+  UserandDeviceClass.DeviceInfo.Param10=deviceparam10;
+  UserandDeviceClass.DeviceInfo.Param11=deviceparam11;
+  UserandDeviceClass.DeviceInfo.Param12=deviceparam12;
 
 
-  DeviceClass.save(function(err) {
+  UserandDeviceClass.save(function(err) {
     if (err) {
   
       console.log('mongo save hata')
@@ -77,22 +103,59 @@ app.post('/deviceSignup', function(request, response) {
     }
   });
 
-
-
 });
+//*****************************POST / UPDATE USER INFO AND DEVICE PARAM REQUEST*********************************************
+app.post('/update_device_param',function(request, response) {
+
+  var deviceparam1=request.query.deviceparam1;
+  var deviceparam2=request.query.deviceparam2;
+  var deviceparam3=request.query.deviceparam3;
+  var deviceparam4=request.query.deviceparam4;
+  var deviceparam5=request.query.deviceparam5;
+  var deviceparam6=request.query.deviceparam6;
+  var deviceparam7=request.query.deviceparam7;
+  var deviceparam8=request.query.deviceparam8;
+  var deviceparam9=request.query.deviceparam9;
+  var deviceparam10=request.query.deviceparam10;
+  var deviceparam11=request.query.deviceparam11;
+  var deviceparam12=request.query.deviceparam12;
 
 
-//*****************************POST / DEVICESELECT REQUEST*********************************************
-app.post('/deviceSelect',function(request, response) {
-
-  DeviceModel.findOne({ 'Param1': request.query.Param1,'Param2':request.query.Param2}, function(err, user) {
+  UserandDeviceModel.findOne({'email':request.query.email,'username':request.query.username,'DeviceInfo.deviceID':request.query.deviceid}, function(err, useranddevice) {
       if (err)
         response.send(err);
       else {
-        if(user) {
+        if(useranddevice) {
 
-          console.log(user);
-          response.send(user);
+          console.log(useranddevice);
+          response.send(useranddevice);
+
+
+          		useranddevice.DeviceInfo.Param1=deviceparam1;
+          		useranddevice.DeviceInfo.Param2=deviceparam2;
+          		useranddevice.DeviceInfo.Param3=deviceparam3;
+          		useranddevice.DeviceInfo.Param4=deviceparam4;
+          		useranddevice.DeviceInfo.Param5=deviceparam5;
+          		useranddevice.DeviceInfo.Param6=deviceparam6;
+          		useranddevice.DeviceInfo.Param7=deviceparam7;
+          		useranddevice.DeviceInfo.Param8=deviceparam8;
+          		useranddevice.DeviceInfo.Param9=deviceparam9;
+          		useranddevice.DeviceInfo.Param10=deviceparam10;
+          		useranddevice.DeviceInfo.Param11=deviceparam11;
+          		useranddevice.DeviceInfo.Param12=deviceparam12;
+
+
+				  useranddevice.save(function(err) {
+				    if (err) {
+				  
+				      console.log('mongo save hata')
+				      response.send(err);
+				    } else {
+				      console.log('Person created');
+				    				      
+				    }
+				  });
+
         } else {
 
         }
@@ -101,113 +164,114 @@ app.post('/deviceSelect',function(request, response) {
     });
 
   });
-
-//*****************************POST / USERSIGNUP REQUEST*********************************************
-app.post('/userSignup', function(request, response) {
-  var Username=request.query.name;
-  var Useremail=request.query.email;
-  var Userpass=request.query.pass;
-  var UserDeviceID=request.query.deviceID;
-
-  console.log(Username);
-  console.log(Useremail);
-  console.log(Userpass);
-  console.log(UserDeviceID);
-
-  var UserClass=new UserModel();
-  UserClass.name=Username;
-  UserClass.email=Useremail;
-  UserClass.pass=Userpass;
-  UserClass.deviceID=UserDeviceID;
-
-  UserClass.save(function(err) {
-    if (err) {
-      //request.send(err);
-      console.log('mongo save hata')
-      response.send(err);
-    } else {
-      console.log('Person created');
-      
-    }
-  });
+//*****************************JSON USER AND DEVICE SIGNUP*********************************************
+ app.post('/json_user_and_device_signup',jsonParser,function(request, response) {
 
 
-
-});
-
-//*****************************POST / USERSELECT REQUEST*********************************************
-app.post('/userSelect',function(request, response) {
-
-  UserModel.findOne({ 'email': request.query.email,'name':request.query.name}, function(err, user) {
-      if (err)
-        response.send(err);
-      else {
-        if(user) {
-
-          console.log(user);
-          response.send(user);
-        } else {
-
-        }
-
-      }
-    });
-
-  });
+  var name=request.body.name;
+  var username=request.body.username;
+  var password=request.body.password;
+  var admin=request.body.admin;
+  var location=request.body.location;
+  var deviceid=request.body.deviceid;
+  var email=request.body.email;
+  var deviceparam1="NULL";
+  var deviceparam2="NULL";
+  var deviceparam3="NULL";
+  var deviceparam4="NULL";
+  var deviceparam5="NULL";
+  var deviceparam6="NULL";
+  var deviceparam7="NULL";
+  var deviceparam8="NULL";
+  var deviceparam9="NULL";
+  var deviceparam10="NULL";
+  var deviceparam11="NULL";
+  var deviceparam12="NULL";
 
 
-//*****************************POST / JSON USERSIGNUP REQUEST*********************************************
- app.post('/JsonuserSignup',jsonParser,function(request, response) {
+  var UserandDeviceClass=new UserandDeviceModel();
+  UserandDeviceClass.name=name;
+  UserandDeviceClass.username=username;
+  UserandDeviceClass.password=password;
+  UserandDeviceClass.admin=admin;
+  UserandDeviceClass.location=location;
+  UserandDeviceClass.DeviceInfo.deviceID=deviceid;
+  UserandDeviceClass.DeviceInfo.Param1=deviceparam1;
+  UserandDeviceClass.DeviceInfo.Param2=deviceparam2;
+  UserandDeviceClass.DeviceInfo.Param3=deviceparam3;
+  UserandDeviceClass.DeviceInfo.Param4=deviceparam4;
+  UserandDeviceClass.DeviceInfo.Param5=deviceparam5;
+  UserandDeviceClass.DeviceInfo.Param6=deviceparam6;
+  UserandDeviceClass.DeviceInfo.Param7=deviceparam7;
+  UserandDeviceClass.DeviceInfo.Param8=deviceparam8;
+  UserandDeviceClass.DeviceInfo.Param9=deviceparam9;
+  UserandDeviceClass.DeviceInfo.Param10=deviceparam10;
+  UserandDeviceClass.DeviceInfo.Param11=deviceparam11;
+  UserandDeviceClass.DeviceInfo.Param12=deviceparam12;
 
-            var JsonUserClass = new UserModel();
-            JsonUserClass.name = request.body.name;
-            JsonUserClass.email = request.body.email;
-            JsonUserClass.pass = request.body.pass;//crypto.createHash('md5').update(request.body.pass).digest("hex");
-            JsonUserClass.deviceID = request.body.deviceID;
-            JsonUserClass.save(function(err) {
-              if (err) {
-                response.send(err);
-                console.log('mongo save hata')
-              } else {
-                
-                console.log(JsonUserClass);
-                  }
-            });
+        UserandDeviceClass.save(function(err) {
+          if (err) {
+            
+            console.log('mongo save error')
+          } else {
+            
+            console.log('data saved');
+            response.json(UserandDeviceClass);
+              }
+        });
 
-            });
+        });
+//*****************************JSON UPDATE USER INFO AND DEVICE PARAM*********************************************
+  app.post('/json_update_device_param', jsonParser ,function(request, response) {
 
-//*****************************POST / JSON DEVICESIGNUP REQUEST*********************************************
-  app.post('/JsondeviceSignup',jsonParser,function(request, response) {
 
-            var JsonDeviceClass=new DeviceModel();
-            JsonDeviceClass.Param1 = request.body.Param1;
-            JsonDeviceClass.Param2 = request.body.Param2;
-            JsonDeviceClass.Param3 = request.body.Param3;//crypto.createHash('md5').update(request.body.pass).digest("hex");
-            JsonDeviceClass.Param4 = request.body.Param4;
+  var deviceparam1=request.body.deviceparam1;
+  var deviceparam2=request.body.deviceparam2;
+  var deviceparam3=request.body.deviceparam3;
+  var deviceparam4=request.body.deviceparam4;
+  var deviceparam5=request.body.deviceparam5;
+  var deviceparam6=request.body.deviceparam6;
+  var deviceparam7=request.body.deviceparam7;
+  var deviceparam8=request.body.deviceparam8;
+  var deviceparam9=request.body.deviceparam9;
+  var deviceparam10=request.body.deviceparam10;
+  var deviceparam11=request.body.deviceparam11;
+  var deviceparam12=request.body.deviceparam12;
 
-            JsonDeviceClass.save(function(err) {
-              if (err) {
-                response.send(err);
-                console.log('mongo save hata')
-              } else {
-               
-                console.log(JsonDeviceClass);
-                  }
-            });
-
-            });
-
-//*****************************POST / JSON USERSELECT REQUEST*********************************************
-  app.post('/JsonuserSelect', jsonParser ,function(request, response) {
-
-              UserModel.findOne({'email': request.body.email}, function(err, user) {
+              UserandDeviceModel.findOne({'email':request.body.email,'username':request.query.username,'DeviceInfo.deviceID':request.query.deviceid}, function(err, useranddevice) {
                   if (err){
                     response.send(err);
                   }
                   else {
-                    if(user) {
-                     response.json({ID:user._id,name:user.name,email:user.email,pass:user.pass,deviceID:user.deviceID});
-                      console.log(user);
+                    if(useranddevice) {
+
+                useranddevice.DeviceInfo.Param1=deviceparam1;
+          		useranddevice.DeviceInfo.Param2=deviceparam2;
+          		useranddevice.DeviceInfo.Param3=deviceparam3;
+          		useranddevice.DeviceInfo.Param4=deviceparam4;
+          		useranddevice.DeviceInfo.Param5=deviceparam5;
+          		useranddevice.DeviceInfo.Param6=deviceparam6;
+          		useranddevice.DeviceInfo.Param7=deviceparam7;
+          		useranddevice.DeviceInfo.Param8=deviceparam8;
+          	    useranddevice.DeviceInfo.Param9=deviceparam9;
+          		useranddevice.DeviceInfo.Param10=deviceparam10;
+          		useranddevice.DeviceInfo.Param11=deviceparam11;
+          		useranddevice.DeviceInfo.Param12=deviceparam12;
+
+
+
+					           useranddevice.save(function(err) {
+					          if (err) {
+					            response.send(err);
+					            console.log('mongo save error')
+					          } else {
+					            
+					            console.log('data saved');
+					            response.json({useranddevice});
+					           
+					              }
+					        });
+
 
                     } else {
                       response.json({error:true});
@@ -217,34 +281,7 @@ app.post('/userSelect',function(request, response) {
                   }
                 });
               });
-
-
-
-//*****************************POST / JSON DEVICESELECT REQUEST*********************************************
-  app.post('/JsondeviceSelect', jsonParser ,function(request, response) {
-
-              DeviceModel.findOne({'Param1': request.body.Param1}, function(err, device) {
-                  if (err){
-                    response.send(err);
-                  }
-                  else {
-                    if(device) {
-                     response.json({ID:device._id,Param1:device.Param1,Param2:device.Param2,Param3:device.Param3,Param4:device.Param4});
-                      console.log(device);
-
-                    } else {
-                      response.json({error:true});
-                      console.log("error:true");
-                    }
-
-                  }
-                });
-              });
-
-
 //*****************************LOCALHOST PORT LISTENING*********************************************
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
-
-//*********************************************************************************************************************
