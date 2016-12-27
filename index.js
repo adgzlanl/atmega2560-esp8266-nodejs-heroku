@@ -1,3 +1,11 @@
+
+// THIS NODE JS SERVICE IS DESIGNED FOR ESP8266 IOT
+//DESIGNED BY ANIL ADIGUZEL 
+// YOU CAN PUBLISH ,DISTRIBUTE AND CHANGE.
+
+
+//*********************************** Variables*****************************************************
+
 var express = require('express');
 var mongoose =require('mongoose');
 var UserModel=require('./models/user');
@@ -5,9 +13,13 @@ var DeviceModel=require('./models/device');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var app = express();
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://freeuser:freeuser@ds141328.mlab.com:41328/esp8266');
 
+//******************************** Mongodb connection Strings*****************************************
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://freeuser:freeuser@ds141328.mlab.com:41328/esp8266');// ALSO YOU CAN SIGNUP AND GET FREE ACCOUNT FROM MBLAB FOR MONGO DATABASE
+// OR YOU CAN USE ABOVE MONGO CONNECTION STRING FOR TESTING
+
+//*********************Json Body Parser***************************************************************
 app.use( bodyParser.json() );     // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 extended: true
@@ -17,22 +29,26 @@ app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
 
-// views is directory for all template files
+//****************** views is directory for all template files*****************************************
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+
+
+//************************************* Get / request *************************************************
 app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
 
-
+//*****************************POST / DEVICESIGNUP REQUEST*********************************************
 app.post('/deviceSignup', function(request, response) {
   var param1=request.query.Param1;
   var param2=request.query.Param2;
   var param3=request.query.Param3;
   var param4=request.query.Param4;
 
+// THIS IS FOR DEBUG********************
   console.log(param1);
   console.log(param2);
   console.log(param3);
@@ -47,7 +63,7 @@ app.post('/deviceSignup', function(request, response) {
 
   DeviceClass.save(function(err) {
     if (err) {
-      //request.send(err);
+  
       console.log('mongo save hata')
       response.send(err);
     } else {
@@ -62,7 +78,7 @@ app.post('/deviceSignup', function(request, response) {
 });
 
 
-
+//*****************************POST / DEVICESELECT REQUEST*********************************************
 app.post('/deviceSelect',function(request, response) {
 
   DeviceModel.findOne({ 'Param1': request.query.Param1,'Param2':request.query.Param2}, function(err, user) {
@@ -82,7 +98,7 @@ app.post('/deviceSelect',function(request, response) {
 
   });
 
-
+//*****************************POST / USERSIGNUP REQUEST*********************************************
 app.post('/userSignup', function(request, response) {
   var Username=request.query.name;
   var Useremail=request.query.email;
@@ -115,7 +131,7 @@ app.post('/userSignup', function(request, response) {
 
 });
 
-
+//*****************************POST / USERSELECT REQUEST*********************************************
 app.post('/userSelect',function(request, response) {
 
   UserModel.findOne({ 'email': request.query.email,'name':request.query.name}, function(err, user) {
@@ -136,7 +152,7 @@ app.post('/userSelect',function(request, response) {
   });
 
 
-
+//*****************************POST / JSON USERSIGNUP REQUEST*********************************************
  app.post('/JsonuserSignup',jsonParser,function(request, response) {
 
             var JsonUserClass = new UserModel();
@@ -156,7 +172,7 @@ app.post('/userSelect',function(request, response) {
 
             });
 
-
+//*****************************POST / JSON DEVICESIGNUP REQUEST*********************************************
   app.post('/JsondeviceSignup',jsonParser,function(request, response) {
 
             var JsonDeviceClass=new DeviceModel();
@@ -177,7 +193,7 @@ app.post('/userSelect',function(request, response) {
 
             });
 
-
+//*****************************POST / JSON USERSELECT REQUEST*********************************************
   app.post('/JsonuserSelect', jsonParser ,function(request, response) {
 
               UserModel.findOne({'email': request.body.email}, function(err, user) {
@@ -200,7 +216,7 @@ app.post('/userSelect',function(request, response) {
 
 
 
-
+//*****************************POST / JSON DEVICESELECT REQUEST*********************************************
   app.post('/JsondeviceSelect', jsonParser ,function(request, response) {
 
               DeviceModel.findOne({'Param1': request.body.Param1}, function(err, device) {
@@ -222,7 +238,7 @@ app.post('/userSelect',function(request, response) {
               });
 
 
-
+//*****************************LOCALHOST PORT LISTENING*********************************************
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
