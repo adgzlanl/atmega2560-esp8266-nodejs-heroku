@@ -52,9 +52,12 @@ app.post('/user_and_device_signup', function(request, response) {
   var name=request.query.name;
   var username=request.query.username;
   var password=request.query.password;
+  var email=request.query.email;
   var admin=request.query.admin;
   var location=request.query.location;
   var deviceid=request.query.deviceid;
+  var created_at = new Date();
+  //created_at.setMonth(created_at.getMonth() - 1);
   var email=request.query.email;
   var deviceparam1="NULL";
   var deviceparam2="NULL";
@@ -74,9 +77,11 @@ app.post('/user_and_device_signup', function(request, response) {
   UserandDeviceClass.name=name;
   UserandDeviceClass.username=username;
   UserandDeviceClass.password=password;
+  UserandDeviceClass.email=email;
   UserandDeviceClass.admin=admin;
   UserandDeviceClass.location=location;
   UserandDeviceClass.DeviceInfo.deviceID=deviceid;
+  UserandDeviceClass.created_at=created_at;
   UserandDeviceClass.DeviceInfo.Param1=deviceparam1;
   UserandDeviceClass.DeviceInfo.Param2=deviceparam2;
   UserandDeviceClass.DeviceInfo.Param3=deviceparam3;
@@ -164,6 +169,34 @@ app.post('/update_device_param',function(request, response) {
     });
 
   });
+
+
+
+//************************************* REMOVE USER AND DEVICE / REQUEST *************************************************
+app.post('/remove_user_and_device', function(request, response) {
+  
+		UserandDeviceModel.findOneAndRemove({'email':request.query.email,'username':request.query.username,'DeviceInfo.deviceID':request.query.deviceid}, function(err) {
+      if (err)
+        response.send(err);
+      else {
+
+
+      		console.log('Person deleted');
+      		response.send("User deleted");
+      }
+
+      });
+
+
+});
+
+		
+
+
+
+
+
+
 //*****************************JSON USER AND DEVICE SIGNUP*********************************************
  app.post('/json_user_and_device_signup',jsonParser,function(request, response) {
 
@@ -171,10 +204,11 @@ app.post('/update_device_param',function(request, response) {
   var name=request.body.name;
   var username=request.body.username;
   var password=request.body.password;
+  var email=request.body.email;
   var admin=request.body.admin;
   var location=request.body.location;
   var deviceid=request.body.deviceid;
-  var email=request.body.email;
+  var created_at = new Date();
   var deviceparam1="NULL";
   var deviceparam2="NULL";
   var deviceparam3="NULL";
@@ -193,8 +227,10 @@ app.post('/update_device_param',function(request, response) {
   UserandDeviceClass.name=name;
   UserandDeviceClass.username=username;
   UserandDeviceClass.password=password;
+  UserandDeviceClass.email=email;
   UserandDeviceClass.admin=admin;
   UserandDeviceClass.location=location;
+  UserandDeviceClass.created_at=created_at;
   UserandDeviceClass.DeviceInfo.deviceID=deviceid;
   UserandDeviceClass.DeviceInfo.Param1=deviceparam1;
   UserandDeviceClass.DeviceInfo.Param2=deviceparam2;
@@ -281,6 +317,27 @@ app.post('/update_device_param',function(request, response) {
                   }
                 });
               });
+
+
+//************************************* JSON REMOVE USER AND DEVICE / REQUEST *************************************************
+app.post('/json_remove_user_and_device',jsonParser, function(request, response) {
+  
+		UserandDeviceModel.findOneAndRemove({'email':request.body.email,'username':request.body.username,'DeviceInfo.deviceID':request.body.deviceid}, function(err) {
+      if (err)
+        response.send(err);
+      else {
+
+
+      		console.log('Person deleted');
+      		response.send("User deleted");
+      }
+
+      });
+
+
+});
+
+
 //*****************************LOCALHOST PORT LISTENING*********************************************
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
